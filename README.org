@@ -1,0 +1,3 @@
+* find-trace-paths
+
+Find paths from stack traces in e.g. [[https://github.com/akermu/emacs-libvterm][VTerm]] buffers, scroll through them and enter file/row/column
