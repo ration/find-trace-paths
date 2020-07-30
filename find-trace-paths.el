@@ -61,19 +61,20 @@
 (defun find-trace-paths--mark-and-goto ()
   "Mark the current search string and exit the search."
   (interactive)
-  (find-trace-paths-mode -1)
   (if find-trace-paths--current-selection
       (let ((selection (buffer-substring (car find-trace-paths--current-selection)
                                  (cdr find-trace-paths--current-selection))))
-        (find-file-with-line selection))))
+        (find-file-with-line selection)))
+  (find-trace-paths--stop))
 
 (defun find-trace-paths--reset-selections ()
    (if find-trace-paths--current-overlay
        (delete-overlay find-trace-paths--current-overlay))
    (setq find-trace-paths--current-overlay nil)
+   (setq find-trace-paths--orig-pos nil)
    (setq find-trace-paths--current-selection nil))
 
-(defun find-trace-paths--abort ()
+(defun find-trace-paths--stop ()
   (interactive)
   (find-trace-paths-mode -1)
   (find-trace-paths--reset-selections)
@@ -98,12 +99,11 @@
   "Find errors that contain filenames with line numbers from buffer and scroll through them"
   :lighter " Find-Error "
   :keymap find-trace-paths--goto-map
-  (if find-trace-paths-mode (find-trace-paths--search-backward)
-    (find-trace-paths--search-backward)))
+  (if find-trace-paths-mode (find-trace-paths--search-backward)))
 
 (defun find-trace-paths ()
   (interactive)
-  (if find-trace-paths-mode (find-trace-paths--abort)
+  (if find-trace-paths-mode (find-trace-paths--stop)
     (find-trace-paths-mode)))
 
 (provide 'find-trace-paths)
