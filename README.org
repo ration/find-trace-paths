@@ -1,3 +1,10 @@
 * find-trace-paths
 
 Find paths from stack traces in e.g. [[https://github.com/akermu/emacs-libvterm][VTerm]] buffers, scroll through them and enter file/row/column
+
+You can currently install it with quelpa:
+#+begin_src emacs-lisp
+(quelpa '(find-trace-paths
+          :fetcher github
+          :repo "ration/find-trace-paths"))
+#+end_src
