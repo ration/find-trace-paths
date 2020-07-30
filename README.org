@@ -5,9 +5,8 @@ files with file/path:row:column syntax.
 
 You can currently install it with quelpa:
 #+begin_src emacs-lisp
-(quelpa '(find-trace-paths
-          :fetcher github
-          :repo "ration/find-trace-paths"))
+(use-package find-trace-paths
+:quelpa (find-trace-paths :fetcher github :repo "ration/find-trace-paths"))
 #+end_src
 * Keyboard mappings
 ** /C-<return>/ Enter current match
