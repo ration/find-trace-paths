@@ -26,8 +26,8 @@
 
 ;;; Code:
 
-(defcustom "REGEX to use for matching traces"
-  find-trace-path-regex "(\\(.*?:.*?:.*?\\))")
+(defcustom find-trace-path-regex "(\\(.*?:.*?:.*?\\))"
+  "REGEX to use for matching traces")
 
 (defvar find-trace-paths--goto-map (make-sparse-keymap))
 (define-key find-trace-paths--goto-map (kbd "<C-return>")  #'find-trace-paths--mark-and-goto)
