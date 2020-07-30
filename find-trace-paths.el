@@ -27,7 +27,9 @@
 ;;; Code:
 
 (defcustom find-trace-paths-regex "[( ]\\(.*?:[0-9]+\\(:[0-9]+\\)?\\)[) ]"
-  "REGEX to use for matching traces")
+  "REGEX to use for matching traces"
+  :group 'find-trace-paths
+  :type '(string))
 
 (defvar find-trace-paths--goto-map (make-sparse-keymap))
 (define-key find-trace-paths--goto-map (kbd "<C-return>")  #'find-trace-paths--mark-and-goto)
@@ -74,7 +76,7 @@
 (defun find-trace-paths--abort ()
   (interactive)
   (find-trace-paths-mode -1)
-  (setq find-trace-paths--current-overlay )
+  (find-trace-paths--reset-selections)
   (keyboard-quit))
 
 (defun find-trace-paths--hilight-match ()
