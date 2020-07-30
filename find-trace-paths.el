@@ -26,7 +26,7 @@
 
 ;;; Code:
 
-(defcustom find-trace-paths-regex "[A-Za-z\.\/]+:[0-9]+\\(:[0-9]+\\)?"
+(defcustom find-trace-paths-regex "[( ]\\(.*?:[0-9]+\\(:[0-9]+\\)?\\)[) ]"
   "REGEX to use for matching traces")
 
 (defvar find-trace-paths--goto-map (make-sparse-keymap))
@@ -34,9 +34,11 @@
 (define-key find-trace-paths--goto-map (kbd "C-.")  #'find-trace-paths--search-backward)
 (define-key find-trace-paths--goto-map (kbd "C-g")  #'find-trace-paths--abort)
 
+(setq find-trace-paths--current-selection nil)
+(setq find-trace-paths--current-overlay nil)
 
 (defun find-file-with-line (filename)
-    "When FILENAME in format /path/foo.bar:3:4 find-file and go to line 3 column 4"
+  "When FILENAME in format /path/foo.bar:3:4 find-file and go to line 3 column 4"
   (save-match-data
     (let* ((matched (string-match "(?\\(.*?\\):\\(.*?\\):\\(.*?\\))?$" filename))
            (line-number (and matched
@@ -55,27 +57,47 @@
           (move-to-column (- char-number 1)))))))
 
 (defun find-trace-paths--mark-and-goto ()
-    "Mark the current search string and exit the search."
-    (interactive)
-    (find-trace-paths-mode -1)
-    (let ((selection (buffer-substring (point) (match-end 0))))
-      (find-file-with-line selection)))
+  "Mark the current search string and exit the search."
+  (interactive)
+  (find-trace-paths-mode -1)
+  (if find-trace-paths--current-selection
+      (let ((selection (buffer-substring (car find-trace-paths--current-selection)
+                                 (cdr find-trace-paths--current-selection))))
+        (find-file-with-line selection))))
+
+(defun find-trace-paths--reset-selections ()
+   (if find-trace-paths--current-overlay
+       (delete-overlay find-trace-paths--current-overlay))
+   (setq find-trace-paths--current-overlay nil)
+   (setq find-trace-paths--current-selection nil))
 
 (defun find-trace-paths--abort ()
   (interactive)
   (find-trace-paths-mode -1)
+  (setq find-trace-paths--current-overlay )
   (keyboard-quit))
+
+(defun find-trace-paths--hilight-match ()
+  (if find-trace-paths--current-selection
+      (progn
+        (setq find-trace-paths--current-overlay (make-overlay (car find-trace-paths--current-selection)
+                                                              (cdr find-trace-paths--current-selection)))
+        (overlay-put find-trace-paths--current-overlay 'face 'bold))))
 
 (defun find-trace-paths--search-backward ()
   (interactive)
-  (search-backward-regexp find-trace-paths-regex))
+  (deactivate-mark)
+  (search-backward-regexp find-trace-paths-regex)
+  (find-trace-paths--reset-selections)
+  (setq find-trace-paths--current-selection (cons (match-beginning 1) (match-end 1)))
+  (find-trace-paths--hilight-match))
 
 (define-minor-mode find-trace-paths-mode
-"Find errors that contain filenames with line numbers from buffer and scroll through them"
-:lighter " Find-Error "
-:keymap find-trace-paths--goto-map
-(if find-trace-paths-mode (find-trace-paths--search-backward)
-  (find-trace-paths--search-backward)))
+  "Find errors that contain filenames with line numbers from buffer and scroll through them"
+  :lighter " Find-Error "
+  :keymap find-trace-paths--goto-map
+  (if find-trace-paths-mode (find-trace-paths--search-backward)
+    (find-trace-paths--search-backward)))
 
 (defun find-trace-paths ()
   (interactive)
