@@ -26,7 +26,7 @@
 
 ;;; Code:
 
-(defcustom find-trace-path-regex "(\\(.*?:.*?:.*?\\))"
+(defcustom find-trace-paths-regex "[A-Za-z\.\/]+:[0-9]+\\(:[0-9]+\\)?"
   "REGEX to use for matching traces")
 
 (defvar find-trace-paths--goto-map (make-sparse-keymap))
@@ -68,7 +68,7 @@
 
 (defun find-trace-paths--search-backward ()
   (interactive)
-  (search-backward-regexp find-trace-path-regex))
+  (search-backward-regexp find-trace-paths-regex))
 
 (define-minor-mode find-trace-paths-mode
 "Find errors that contain filenames with line numbers from buffer and scroll through them"

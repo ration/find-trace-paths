@@ -12,5 +12,5 @@ You can currently install it with quelpa:
 ** /C-<return>/ Enter current match
 ** /<C-.>/ Run find-trace-paths again i.e. go to previous match
 * Customization
-** /find-trace-path-regex/
+** /find-trace-paths-regex/
    REGEX to use for matching paths.
