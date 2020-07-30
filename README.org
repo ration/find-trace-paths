@@ -1,6 +1,7 @@
 * find-trace-paths
 
-Find paths from stack traces in e.g. [[https://github.com/akermu/emacs-libvterm][VTerm]] buffers, scroll through them and enter file/row/column
+/find-trace-paths/ is a minor mode to find paths from stack traces in e.g. [[https://github.com/akermu/emacs-libvterm][VTerm]] buffers, scroll through them and enter
+files with file/path:row:column syntax.
 
 You can currently install it with quelpa:
 #+begin_src emacs-lisp
@@ -8,3 +9,9 @@ You can currently install it with quelpa:
           :fetcher github
           :repo "ration/find-trace-paths"))
 #+end_src
+* Keyboard mappings
+** /C-<return>/ Enter current match
+** /<C-.>/ Run find-trace-paths again i.e. go to previous match
+* Customization
+** /find-trace-path-regex/
+   REGEX to use for matching paths.
