@@ -3,6 +3,10 @@
 /find-trace-paths/ is a minor mode to find paths from stack traces in e.g. [[https://github.com/akermu/emacs-libvterm][VTerm]] buffers, scroll through them and enter
 files with file/path:row:column syntax.
 
+#+CAPTION: Jumping to error row from a stack
+#+NAME:    stacks.png
+[[./images/stacks.gif]]
+
 You can currently install it with quelpa:
 #+begin_src emacs-lisp
 (use-package find-trace-paths
