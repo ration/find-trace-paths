@@ -53,12 +53,12 @@
            (file-path (if matched (substring-no-properties (match-string 1 filename)) filename)))
       (if (and file-path (file-regular-p file-path))
           (progn 
-        (find-file-other-window file-path)
-        (when line-number
-          (goto-char (point-min))
-          (forward-line (1- line-number))
-          (when char-number
-            (move-to-column (- char-number 1)))))
+            (find-file-other-window file-path)
+            (when line-number
+              (goto-char (point-min))
+              (forward-line (1- line-number))
+              (when char-number
+                (move-to-column (- char-number 1)))))
         (message "%s not found" file-path)))))
 
 (defun find-trace-paths--mark-and-goto ()
