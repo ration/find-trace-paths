@@ -17,4 +17,4 @@ You can currently install it with quelpa:
 ** /<C-.>/ Run find-trace-paths again i.e. go to previous match
 * Customization
 ** /find-trace-paths-regex/
-   REGEX to use for matching paths.
+   REGEX to use for matching paths. The path to find must be in regex match group 1.
